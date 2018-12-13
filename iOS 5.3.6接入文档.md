@@ -328,7 +328,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 | --------------- | ------- | ------------------------------------- |
 | oldStyle        | BOOL    | 显示旧版号码栏样式，YES时显示旧版样式 |
 | numberColor     | UIColor | 手机号码字体颜色                      |
-| numFieldOffsetY | CGFloat | 号码栏Y偏移量                         |
+| numFieldOffsetY | CGFloat | 号码栏Y相对于标题栏下边缘y偏移        |
 
 **登录按钮**
 
