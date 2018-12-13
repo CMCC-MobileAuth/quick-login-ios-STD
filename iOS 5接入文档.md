@@ -300,7 +300,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 ```
 
-### 2.4.3. Model属性
+### 2.6.3. Model属性
 
 **授权页导航栏**
 
@@ -374,7 +374,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 | SMSLogBtnImgs      | NSArray            | 设置短验登录按钮三种状态的图片数组，数组顺序为：[0]激活状态的图片；[1] 失效状态的图片；[2] 高亮状态的图片 |
 | SMSLogBtnTextColor | UIColor            | 设置短验页的按钮文字颜色                                     |
 
-### 2.4.4. 授权页面的关闭
+### 2.6.4. 授权页面的关闭
 
 开发者可以自定义关闭授权页面。
 
@@ -449,7 +449,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 对于本机号码校验，需要注意：
 
 1. 本产品属于收费业务，开发者未签订服务合同前，每天总调用次数有限，详情可咨询商务。
-2. 签订合同后，将不在提供每天免费的测试次数。
+2. 签订合同后，将不再提供每天免费的测试次数。
 
 **接口说明：**
 
@@ -525,7 +525,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 <div STYLE="page-break-after: always;"></div>
 
-##2.9. 获取网络状态和运营商类型
+## 2.9. 获取网络状态和运营商类型
 
 本方法用于获取用户当前的网络环境和运营商
 
