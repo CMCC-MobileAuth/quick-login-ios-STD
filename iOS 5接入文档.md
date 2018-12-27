@@ -388,7 +388,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 ## 2.7. 获取手机号码（服务端）
 
-详细请开发者查看获取手机号码接口文档说明。
+详细请开发者查看移动认证服务端接口文档说明。
 
 
 
@@ -450,7 +450,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 ## 3.5. 本机号码校验（服务端）
 
-详细请开发者查看本机号码校验接口文档说明。
+详细请开发者查看移动认证服务端接口文档说明。
 
 
 
