@@ -85,8 +85,8 @@ sdk支持版本：iOS8.0及以上</br>
 **取号方法原型**
 
 ```objective-c
-+ (void)preGetPhonenumberWithTimeout:(NSTimeInterval)timeout 
-    					  completion:(void(^)(id sender))complete;
++ (void)getPhonenumberWithTimeout:(NSTimeInterval)timeout
+                          completion:(void(^)(id sender))complete;
 ```
 
 **参数说明：**
@@ -106,7 +106,7 @@ sdk支持版本：iOS8.0及以上</br>
 **请求示例代码**
 
 ```objective-c
-[TYRZUILogin preGetPhonenumberWithTimeout:8000 
+[TYRZUILogin getPhonenumberWithTimeout:8000 
  						       completion:^(id sender) {
         NSString *resultCode = sender[@"resultCode"];
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:sender];
@@ -200,7 +200,7 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 **授权请求方法原型**
 
 ```objective-c
-+ (void)getTokenExpWithController:(UIViewController *)vc
++ (void)getAuthorizationWithController:(UIViewController *)vc
                           timeout:(NSTimeInterval)timeout
                          complete:(void (^)(id sender))complete;
 ```
@@ -225,7 +225,7 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 **请求示例代码**
 
 ```objective-c
-[TYRZUILogin getTokenExpWithController:self 
+[TYRZUILogin getAuthorizationWithController:self 
  						       timeout:8000 
  							  complete:^(id sender) {
         						
