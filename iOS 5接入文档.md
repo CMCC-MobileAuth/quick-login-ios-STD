@@ -2,7 +2,7 @@
 
 sdk技术问题沟通QQ群：609994083</br>
 sdk支持版本：iOS8.0及以上</br>
-本文档为一键登录SDK5.3.8版本的开发文档</br>
+本文档为一键登录SDK5.3.9版本的开发文档</br>
 
 
 **注意事项：**
@@ -42,7 +42,8 @@ sdk支持版本：iOS8.0及以上</br>
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [TYRZUILogin initializeWithAppId:APPID appKey:APPKEY];
+    [UASDKLogin.shareLogin registerAppId:@"xxxxxxxx" AppKey:@"xxxxxxxx"];
+
         
     return YES;
 }
@@ -51,14 +52,14 @@ sdk支持版本：iOS8.0及以上</br>
 **方法原型：**
 
 ```objective-c
-+ (void)initializeWithAppId:(NSString *)appId appKey:(NSString *)appKey;
+- (void)registerAppId:(NSString *)appId AppKey:(NSString *)appKey;
 ```
 
 **参数说明：**
 
 | 参数   | 类型     | 说明        |
 | ------ | -------- | ----------- |
-| appID  | NSString | 应用的appid |
+| appId  | NSString | 应用的appid |
 | appKey | NSString | 应用密钥    |
 
 <div STYLE="page-break-after: always;"></div>
@@ -85,16 +86,14 @@ sdk支持版本：iOS8.0及以上</br>
 **取号方法原型**
 
 ```objective-c
-+ (void)getPhonenumberWithTimeout:(NSTimeInterval)timeout
-                          completion:(void(^)(id sender))complete;
+- (void)getPhoneNumberCompletion:(void(^)(NSDictionary *_Nonnull result))completion;
 ```
 
 **参数说明：**
 
-| 参数     | 类型           | 说明                                         |
-| -------- | -------------- | -------------------------------------------- |
-| timeout  | NSTimeInterval | 自定义取号超时时间（默认8000毫秒），单位：ms |
-| complete | Block          | 取号回调                                     |
+| 参数     | 类型  | 说明     |
+| -------- | ----- | -------- |
+| complete | Block | 取号回调 |
 
 **响应参数：**
 
@@ -106,8 +105,8 @@ sdk支持版本：iOS8.0及以上</br>
 **请求示例代码**
 
 ```objective-c
-[TYRZUILogin getPhonenumberWithTimeout:8000 
- 						       completion:^(id sender) {
+[UASDKLogin.shareLogin getPhoneNumberCompletion:^(NSDictionary * _Nonnull sender) {
+     
         NSString *resultCode = sender[@"resultCode"];
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:sender];
         if ([resultCode isEqualToString:CLIENTSUCCESSCODECLIENT]) {
@@ -127,71 +126,14 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 
 1. 目前短信验证码只支持移动和电信手机号码
 2. 无网络时，不提供短验服务
-3. 未获取`READ_PHONE_STATE`授权时，不提供短验服务
 
-**短信验证码开关原型：**
+**使用方法：**
 
-```objective-c
-+ (void)enableCustomSMS:(BOOL)state;
-```
+通过设置Model属性中SMSAuthOn值确定是否使用短信验证码服务(参考2.6.2)
 
-**参数说明：**
+NO（默认）：不使用SDK提供的短验服务，此时如果用户点击“切换账号”，SDK将返回200060返回码
 
-| 参数  | 类型 | 说明                                                         |
-| ----- | ---- | ------------------------------------------------------------ |
-| state | BOOL | 是否使用开发者自定义短验（YES：使用；NO：不使用），默认值为NO |
-
-**短信验证使用场景（enableCustomSMS为NO前提）：**
-
-一、开发者调用2.5中的授权请求方法失败时，自动跳转到SDK短信验证码页面；
-
-二、开发者在授权页面切换，其中
-
-“切换账号”按钮隐藏时，无法在授权页面跳转到短验页面；
-
-“切换账号”按钮显示时，
-
-1. 当enableCustomSMS设置为NO时，点击“切换账号”，跳转到SDK短验
-2. 当enableCustomSMS设置为YES时，点击“切换账号”，SDK将返回200060返回码，应用根据该返回码自行实现页面的跳转。
-
-![](image/sms_logic.png)
-
-示例代码如下：
-
-```objective-c
-[TYRZUILogin getTokenExpWithController:self timeout:-1 complete:^(id sender) {
-       
-    NSLog(@"显示登录:%@",sender);
-        NSString *resultCode = sender[@"resultCode"];
-        self.token = sender[@"token"];
-        NSMutableDictionary *result = [sender mutableCopy];
-        NSLog(@"result = %@",result);
-        if ([resultCode isEqualToString:CLIENTSUCCESSCODECLIENT]) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            result[@"result"] = @"获取token成功";
-            
-            //用户点击了“切换账号”（customSMS为YES才返回）
-        }else if ([resultCode isEqualToString:@"200060"]){
-            
-            UINavigationController *nav = sender[@"NavigationController"];
-            UIViewController *vc = [[UIViewController alloc]init];
-            
-            
-            //导航栏push模式，可以跳回授权页面
-            [nav pushViewController:vc animated:YES];
-
-            //present模式，无法跳回授权页面
-            //[self presentViewController:vc animated:YES completion:nil];
-        }
-        else {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            result[@"result"] = @"获取token失败";
-        }
-            [self showInfo:result];        
-    }];
-
-
-```
+YES：使用SDK提供的短验服务
 
 
 ## 2.5. 授权请求
@@ -201,18 +143,16 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 **授权请求方法原型**
 
 ```objective-c
-+ (void)getAuthorizationWithController:(UIViewController *)vc
-                          timeout:(NSTimeInterval)timeout
-                         complete:(void (^)(id sender))complete;
+- (void)getAuthorizationWithModel:(UACustomModel *)model 
+                         complete:(void (^)(id sender))completion;
 ```
 
 **请求参数：**
 
-| 参数     | 类型             | 说明                                         |
-| -------- | ---------------- | -------------------------------------------- |
-| vc       | UIViewController | 开发者调用一键登录方法时所在的页面控制器     |
-| timeout  | NSTimeInterval   | 自定义取号超时时间（默认8000毫秒），单位：ms |
-| complete | Block            | 取号回调                                     |
+| 参数     | 类型          | 说明                              |
+| -------- | ------------- | --------------------------------- |
+| model    | UACustomModel | 需要配置的Model属性（控制器必传） |
+| complete | Block         | 取号回调                          |
 
 **响应参数：**
 
@@ -225,16 +165,34 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 **请求示例代码**
 
 ```objective-c
-[TYRZUILogin getAuthorizationWithController:self 
- 						       timeout:8000 
- 							  complete:^(id sender) {
-        						
-                              //SDK响应时，客户端执行的逻辑
-                                ……………… 
-                                ………………
-                              //可参考demo示例代码                   
-    }
-];
+//    NSDecimalNumber *begin = [self.class startLoading];
+    UACustomModel *model = [[UACustomModel alloc]init];
+    model.currentVC = self;//必传
+    model.authPageBackgroundImage = [UIImage imageNamed:@"tooopen_sy_122409821526"];
+//    model.numberSize = 10;
+//    model.navReturnImg = [UIImage imageNamed:@"tooopen_sy_122409821526"];
+//    model.logBtnImgs = @[[UIImage imageNamed:@"12341553737084_.pic_hd"],[UIImage imageNamed:@"12341553737084_.pic_hd"],[UIImage imageNamed:@"12341553737084_.pic_hd"]];
+//    model.logBtnImgs = []
+//    model.navCustom = YES;
+//    model.authViewBlock = ^(UIView *customView) {
+//        UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooopen_sy_122409821526"]];
+//        ima.frame = customView.bounds;
+//        [customView addSubview:ima];
+//    };
+//    model.customSMSFlag = YES;
+    [UASDKLogin.shareLogin getAuthorizationWithModel:model complete:^(NSDictionary * _Nonnull sender) {
+//        NSDecimalNumber *end = [self.class stopLoading];
+//        NSDecimalNumberHandler *subHandler = [self.class roundPlainWithScale:3];
+//        NSDecimalNumber *delta = [end decimalNumberBySubtracting:begin withBehavior:subHandler];
+//        NSMutableDictionary *result = [sender mutableCopy];
+//        result[@"duration"] = delta;
+//        [self displayObject:result withTitle:@"一键登录" alertActionHandler:^(UIAlertAction * _Nonnull action) {
+
+//        [self dismissViewControllerAnimated:YES completion:nil];
+        [self displayObject:sender];
+
+//        }];
+    }];
 
 ```
 
@@ -253,67 +211,64 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 
 **注意：开发者不得通过任何技术手段，将授权页面的隐私栏、品牌露出内容隐藏、覆盖，对于接入移动认证SDK并上线的应用，我方会对上线的应用授权页面做审查，如果有出现未按要求设计授权页面，将隐私栏、品牌等UI隐去不可见的设计，我方有权将应用的登录功能下线。**
 
-### 2.6.2. 修改授权页布局
+### 2.6.2. Model属性
 
-开发者通过调用授权页面布局方法customUIWithParams，根据2.6.1所示规则配置授权页面默认元素，并且允许开发者在授权页面上添加自定义的控件和事件。
+通过model属性，可以实现：
 
-**授权页面默认元素修改**
+1、可以允许开发者在授权页面上添加自定义的控件；
 
-创建一个UACustomModel 类，设置好类的属性（属性名可参考UACustomModel.h文件查看或者查看2.6.3查看model属性）,然后将设置好的model实例作为参数传进 customUIWithParams方法里
+2、授权页面推出的动画效果
 
-**开发者自定义控件**
+3、设置授权页面和短信验证码页面的元素控件的布局
 
-customUIWithParams将把授权页面customAreaView回调给开发者，开发者成功获取该页面后，可以在页面上添加自定义的元素和添加事件。
-
-注意：开发者定义的元素无法覆盖授权页面的默认元素
-
-**方法原型**
+**当前VC，注意：使用一键登录服务时，这个值必传**
 
 ```objective-c
-+ (void)customUIWithParams:(UACustomModel *)model
-               customViews:(void(^)(UIView *customAreaView))customViews;
+@property (nonatomic,strong) UIViewController *currentVC;
 ```
 
-**参数说明**
 
-| 参数        | 类型          | 说明                                      |
-| ----------- | ------------- | ----------------------------------------- |
-| model       | UACustomModel | 用于配置页面默认元素的类，具体可参考2.4.3 |
-| customViews | UIView        | 开发者自定义控件                          |
 
-**布局示例代码**
+**授权界面自定义控件View的Block**
+
+| model属性  | 值类型        | 属性说明                 |
+| ---------- | ------------- | ------------------------ |
+| customView | authViewBlock | 设置授权页应用自定义控件 |
+
+示例：
 
 ```objective-c
-UACustomModel *model = [[UACustomModel alloc]init];
-	model.navReturnImg = [UIImage imageNamed:@"delete.png"];
-    model.logoImg = [UIImage imageNamed:@"(friend_quan)_[图片]SFont.CN"];
-    model.logoWidth = 100;
-    model.logoHeight = 120;
-    model.numberColor = [UIColor blackColor];
-    model.navText = [[NSAttributedString alloc]initWithString:@"你好" attributes:@{}];
-  	...............
-	...............
-	...............
-    [TYRZUILogin customUIWithParams:model 
-     					customViews:^(UIView *customAreaView) {
-        UIImageView *iamgeView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"WechatIMG16.jpeg"]];
-//        [customAreaView addSubview:iamgeView];
-                        }
-    ];
-
+model.authViewBlock = ^(UIView *customView) {
+UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooopen_sy_122409821526"]];
+        ima.frame = customView.bounds;
+        [customView addSubview:ima];
+    };
 ```
 
-### 2.6.3. Model属性
 
-**授权页导航栏**
 
-| model属性    | 值类型             | 属性说明               |
-| ------------ | ------------------ | ---------------------- |
-| navColor     | UIColor            | 设置导航栏颜色         |
-| navText      | NSAttributedString | 设置导航栏标题文字     |
-| barStyle     | UIBarStyle         | 状态栏着色样式         |
-| navReturnImg | UIImage            | 设置导航栏返回按钮图标 |
-| navControl   | UIBarButtonItem    | 导航栏右侧自定义控件   |
+**授权页面推出动画效果**
+
+| model属性   | 值类型                  | 属性说明         |
+| ----------- | ----------------------- | ---------------- |
+| presentType | UAPresentationDirection | 设置推出动画效果 |
+
+**导航栏状态栏设置**
+
+| model属性    | 值类型             | 属性说明                                                     |
+| ------------ | ------------------ | ------------------------------------------------------------ |
+| navColor     | UIColor            | 设置导航栏颜色（授权页短验页一致）                           |
+| navText      | NSAttributedString | 设置导航栏标题文字                                           |
+| barStyle     | UIBarStyle         | 状态栏着色样式（授权页短验页一致）                           |
+| navReturnImg | UIImage            | 设置导航栏返回按钮图标（授权页短验页一致）                   |
+| navControl   | UIBarButtonItem    | 导航栏右侧自定义控件，如果导航栏隐藏了，该项不生效（授权页短验页一致） |
+| navCustom    | BOOL               | 隐藏导航栏（授权页短验页一致）                               |
+
+**授权页背景**
+
+| 方法                    | 值类型  | 说明               |
+| ----------------------- | ------- | ------------------ |
+| authPageBackgroundImage | UIImage | 设置授权页背景图片 |
 
 **授权页logo**
 
@@ -327,11 +282,11 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 **号码栏**
 
-| model属性       | 值类型  | 属性说明                              |
-| --------------- | ------- | ------------------------------------- |
-| oldStyle        | BOOL    | 显示旧版号码栏样式，YES时显示旧版样式 |
-| numberColor     | UIColor | 手机号码字体颜色                      |
-| numFieldOffsetY | CGFloat | 号码栏Y相对于标题栏下边缘y偏移        |
+| model属性       | 值类型  | 属性说明                       |
+| --------------- | ------- | ------------------------------ |
+| numberColor     | UIColor | 手机号码字体颜色               |
+| numberSize      | CGFloat | 手机号码字体大小               |
+| numFieldOffsetY | CGFloat | 号码栏Y相对于标题栏下边缘y偏移 |
 
 **登录按钮**
 
@@ -355,10 +310,11 @@ UACustomModel *model = [[UACustomModel alloc]init];
 | model属性       | 值类型  | 属性说明                                                     |
 | --------------- | ------- | ------------------------------------------------------------ |
 | appPrivacyOne   | NSArray | 设置开发者隐私条款1名称和URL(名称,url)                       |
-| appPrivacyTow   | NSArray | 设置开发者隐私条款2名称和URL(名称,url)                       |
+| appPrivacyTwo   | NSArray | 设置开发者隐私条款2名称和URL(名称,url)                       |
 | appPrivacyColor | NSArray | 设置隐私条款名称颜色和协议文字颜色(基础文字颜色，协议文字颜色) |
 | uncheckedImg    | UIImage | 设置复选框未选中时图片                                       |
 | checkedImg      | UIImage | 设置复选框选中时图片                                         |
+| privacyState    | BOOL    | 隐私条款check框默认状态<br/>默认:NO                          |
 | privacyOffsetY  | CGFloat | 设置隐私条款相对于授权页面底部下边缘y偏移                    |
 
 **授权页slogan**
@@ -372,12 +328,15 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 | model属性          | 值类型             | 属性说明                                                     |
 | ------------------ | ------------------ | ------------------------------------------------------------ |
+| SMSAuthOn          | BOOL               | SDK短信验证码开关（默认为NO）</br>NO:不使用SDK提供的短验；</br>YES：使用SDK提供的短验 |
+| SMSBackgroundImage | UIImage            | 短验界面背景                                                 |
 | SMSNavText         | NSAttributedString | 设置短验页的导航栏标题文字                                   |
 | SMSLogBtnText      | NSString           | 设置短验页的按钮文字                                         |
 | SMSLogBtnImgs      | NSArray            | 设置短验登录按钮三种状态的图片数组，数组顺序为：[0]激活状态的图片；[1] 失效状态的图片；[2] 高亮状态的图片 |
+| SMSGetCodeBtnImgs  | NSArray            | 设置获取验证码按钮三种状态的图片数组，数组顺序为：[0]激活状态的图片；[1] 失效状态的图片 |
 | SMSLogBtnTextColor | UIColor            | 设置短验页的按钮文字颜色                                     |
 
-### 2.6.4. 授权页面的关闭
+### 2.6.3. 授权页面的关闭
 
 开发者可以自定义关闭授权页面。
 
@@ -427,26 +386,23 @@ UACustomModel *model = [[UACustomModel alloc]init];
 ```java
 /**
  本机号码校验
- @param timeout 超时时间(毫秒)
  @param complete 回调
  */
-+ (void)mobileAuthWithTimeout:(NSTimeInterval)timeout
-                      complete:(void (^)(id sender))complete;
+- (void)mobileAuthCompletion:(void(^)(NSDictionary *_Nonnull result))completion;
 
 ```
 
 **请求参数说明：**
 
-| 参数     | 类型   | 说明                                         |
-| :------- | :----- | :------------------------------------------- |
-| timeout  | String | 自定义取号超时时间（默认8000毫秒），单位：ms |
-| complete | String | 方法回调                                     |
+| 参数     | 类型   | 说明     |
+| :------- | :----- | :------- |
+| complete | String | 方法回调 |
 
 **响应参数：**
 
 | 字段       | 类型   | 含义                                                         |
 | ---------- | ------ | ------------------------------------------------------------ |
-| resultCode | Int    | 接口返回码，“103000”为成功。具体响应码见5.1 SDK返回码        |
+| resultCode | Int    | 接口返回码，“103000”为成功。                                 |
 | token      | String | 成功返回:临时凭证，token有效期2min，一次有效，同一用户（手机号）10分钟内获取token且未使用的数量不超过30个 |
 
 
@@ -463,18 +419,25 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 本方法用于获取用户当前的网络环境和运营商
 
+网络类型及运营商（双卡下，获取上网卡的运营商）
+
 **原型**
 
 ```objective-c
-+(NSDictionary*)getNetworkType;
+@property (nonatomic,readonly) NSDictionary<NSString *, NSNumber *> *networkInfo;
 ```
 
 **响应说明**
 
 | 参数        | 类型         | 说明                                                   |
 | ----------- | ------------ | ------------------------------------------------------ |
-| networkType | NSNumber | 0.无网络;</br>1.数据流量;</br>2.wifi;</br>3.数据+wifi  |
-| carrier     | NSNumber | 0.未知;</br>1.中国移动;</br>2.中国联通;</br>3.中国电信 |
+| networkInfo | NSDictionary | <运营商, 网络类型> |
+
+字典对应的键值：
+
+carrier（运营商）：0.未知 / 1.中国移动 / 2.中国联通 / 3.中国电信
+
+networkType（网络类型）：0.无网络/ 1.数据流量 / 2.wifi / 3.数据+wifi
 
 ## 4.2. 删除临时取号凭证
 
@@ -483,7 +446,7 @@ UACustomModel *model = [[UACustomModel alloc]init];
 **原型**
 
 ```objective-c
-+(BOOL)delectScrip;
+- (BOOL)delectScrip;
 ```
 
 **响应说明**
@@ -494,32 +457,54 @@ UACustomModel *model = [[UACustomModel alloc]init];
 
 <div STYLE="page-break-after: always;"></div>
 
+## 4.3. 自定义请求超时设置
+
+本方法用于删除取号方法`getPhoneNumberWithTimeout`成功后返回的取号凭证scrip
+
+**原型**
+
+```objective-c
+- (void)setTimeoutInterval:(NSTimeInterval)timeout;
+```
+
+**响应说明**
+
+| 参数    | 类型           | 说明                                                         |
+| ------- | -------------- | ------------------------------------------------------------ |
+| timeout | NSTimeInterval | 设置取号、授权请求和本机号码校验请求时的超时时间，开发者不配置时，默认所有请求的超时时间都为8000，单位毫秒 |
+
+<div STYLE="page-break-after: always;"></div>
+
 # 5. 返回码说明
 
 ## 5.1. SDK返回码
 
-| 返回码 | 返回码描述                                   |
-| ------ | -------------------------------------------- |
-| 103000 | 成功                                         |
-| 103108 | 短信验证码错误                               |
-| 103125 | 手机号码格式错误                             |
-| 200014 | 手机号码不存在                               |
-| 200020 | 用户取消登录                                 |
-| 200021 | 数据解析异常                                 |
-| 200022 | 无网络                                       |
-| 200023 | 请求超时                                     |
+| 返回码 | 返回码描述                                                   |
+| ------ | ------------------------------------------------------------ |
+| 103000 | 成功                                                         |
+| 103108 | 短信验证码错误                                               |
+| 103125 | 手机号码格式错误                                             |
+| 200014 | 手机号码不存在                                               |
+| 200020 | 用户取消登录                                                 |
+| 200021 | 数据解析异常                                                 |
+| 200022 | 无网络                                                       |
+| 200023 | 请求超时                                                     |
 | 200025 | 其他错误（socket、系统未授权数据蜂窝权限等，如需要协助，请加入qq群发问） |
-| 200027 | 未开启数据网络                               |
-| 200028 | 网络请求出错                                 |
-| 200030 | 没有初始化参数                               |
-| 200038 | 异网重定向失败                               |
-| 200039 | 电信取号接口返回失败                         |
-| 200048 | 未安装sim卡                                  |
-| 200050 | EOF异常                                      |
-| 200060 | 切换账号（未使用SDK短验时返回）              |
-| 200061 | 授权页面异常                                 |
-| 200062 | 预取号不支持联通                             |
-| 200063 | 预取号不支持电信                             |
+| 200027 | 未开启数据网络                                               |
+| 200028 | 网络请求出错                                                 |
+| 200030 | 没有初始化参数                                               |
+| 200038 | 异网重定向失败                                               |
+| 200039 | 电信取号接口返回失败                                         |
+| 200048 | 未安装sim卡                                                  |
+| 200050 | EOF异常                                                      |
+| 200060 | 切换账号（未使用SDK短验时返回）                              |
+| 200061 | 授权页面异常                                                 |
+| 200062 | 预取号不支持联通                                             |
+| 200063 | 预取号不支持电信                                             |
+| 200064 | 服务端返回数据异常                                           |
+| 200072 | CA根证书校验失败                                             |
+| 200080 | 本机号码校验仅支持移动手机号                                 |
+| 200082 | 服务器繁忙                                                   |
 
 
 6.常见问题
