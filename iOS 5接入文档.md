@@ -240,7 +240,7 @@ YES：使用SDK提供的短验服务
 
 | model属性  | 值类型        | 属性说明                 |
 | ---------- | ------------- | ------------------------ |
-| customView | authViewBlock | 设置授权页应用自定义控件 |
+| authViewBlock | customView | 设置授权页应用自定义控件 |
 
 示例：
 
