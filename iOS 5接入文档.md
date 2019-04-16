@@ -129,7 +129,7 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 
 **使用方法：**
 
-通过设置Model属性中SMSAuthOn值确定是否使用短信验证码服务(参考2.6.2)
+通过设置Model属性中SMSAuthOn值确定是否使用短信验证码服务(参考2.6.3)
 
 NO（默认）：不使用SDK提供的短验服务，此时如果用户点击“切换账号”，SDK将返回200060返回码
 
@@ -209,16 +209,29 @@ YES：使用SDK提供的短验服务
 
 
 
-**注意：
+**注意：**
 
-1、开发者不得通过任何技术手段，破解授权页，或将授权页面的隐私栏、品牌露出内容隐藏、覆盖。
+**1、开发者不得通过任何技术手段，破解授权页，或将授权页面的隐私栏、品牌露出内容隐藏、覆盖。**
 
-2、登录按钮文字描述必须包含“登录”或“注册”等文字，不得诱导用户授权。
+**2、登录按钮文字描述必须包含“登录”或“注册”等文字，不得诱导用户授权。**
 
-3、对于接入移动认证SDK并上线的应用，我方会对上线的应用授权页面做审查，如果有出现未按要求弹出或设计授权页面的，将关闭应用的认证取号服务。
-**
+**3、对于接入移动认证SDK并上线的应用，我方会对上线的应用授权页面做审查，如果有出现未按要求弹出或设计授权页面的，将关闭应用的认证取号服务。**
 
-### 2.6.2. Model属性
+
+
+### 2.6.2.横屏设置
+
+在`appdelegae.m`文件内添加以下示例代码，可以实现横屏模式：
+
+示例代码：
+
+```objective-c
+(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+return UIInterfaceOrientationMaskLandscapeRight;
+}
+```
+
+###  2.6.3Model属性
 
 通过model属性，可以实现：
 
@@ -238,8 +251,8 @@ YES：使用SDK提供的短验服务
 
 **授权界面自定义控件View的Block**
 
-| model属性  | 值类型        | 属性说明                 |
-| ---------- | ------------- | ------------------------ |
+| model属性     | 值类型     | 属性说明                 |
+| ------------- | ---------- | ------------------------ |
 | authViewBlock | customView | 设置授权页应用自定义控件 |
 
 示例：
@@ -251,8 +264,6 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
         [customView addSubview:ima];
     };
 ```
-
-
 
 **授权页面推出动画效果**
 
@@ -343,7 +354,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | SMSGetCodeBtnImgs  | NSArray            | 设置获取验证码按钮三种状态的图片数组，数组顺序为：[0]激活状态的图片；[1] 失效状态的图片 |
 | SMSLogBtnTextColor | UIColor            | 设置短验页的按钮文字颜色                                     |
 
-### 2.6.3. 授权页面的关闭
+### 2.6.4. 授权页面的关闭
 
 开发者可以自定义关闭授权页面。
 
