@@ -81,7 +81,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.3. 取号请求
 
-本方法用于发起取号请求，SDK完成网络判断、蜂窝数据网络切换等操作并缓存凭证scrip。
+本方法用于发起取号请求，SDK完成网络判断、蜂窝数据网络切换等操作并缓存凭证scrip。（本方法暂不支持联通和电信）
 
 **取号方法原型**
 
@@ -129,7 +129,7 @@ SDK提供短信验证码作为网关取号的补充功能，短验功能只有�
 
 **使用方法：**
 
-通过设置Model属性中SMSAuthOn值确定是否使用短信验证码服务(参考2.6.3)
+通过设置Model属性中SMSAuthOn值确定是否使用短信验证码服务(参考2.6.2)
 
 NO（默认）：不使用SDK提供的短验服务，此时如果用户点击“切换账号”，SDK将返回200060返回码
 
@@ -219,19 +219,7 @@ YES：使用SDK提供的短验服务
 
 
 
-### 2.6.2.横屏设置
-
-在`appdelegae.m`文件内添加以下示例代码，可以实现横屏模式：
-
-示例代码：
-
-```objective-c
-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-return UIInterfaceOrientationMaskLandscapeRight;
-}
-```
-
-###  2.6.3Model属性
+###  2.6.2Model属性
 
 通过model属性，可以实现：
 
@@ -354,7 +342,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | SMSGetCodeBtnImgs  | NSArray            | 设置获取验证码按钮三种状态的图片数组，数组顺序为：[0]激活状态的图片；[1] 失效状态的图片 |
 | SMSLogBtnTextColor | UIColor            | 设置短验页的按钮文字颜色                                     |
 
-### 2.6.4. 授权页面的关闭
+### 2.6.3. 授权页面的关闭
 
 开发者可以自定义关闭授权页面。
 
@@ -398,6 +386,10 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 ## 3.4. 本机号码校验请求token
 
 开发者可以在应用内部任意页面调用本方法，获取本机号码校验的接口调用凭证（token）
+
+*本机号码校验暂时不支持联通和电信
+
+
 
 **本机号码校验方法原型**
 
@@ -460,7 +452,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 ## 4.2. 删除临时取号凭证
 
-本方法用于删除取号方法`getPhoneNumberWithTimeout`成功后返回的取号凭证scrip
+本方法用于删除取号方法`getPhoneNumberCompletion`成功后返回的取号凭证scrip
 
 **原型**
 
@@ -478,7 +470,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 ## 4.3. 自定义请求超时设置
 
-本方法用于删除取号方法`getPhoneNumberWithTimeout`成功后返回的取号凭证scrip
+本方法用于设置取号、一键登录、本机号码校验请求的超时时间
 
 **原型**
 
@@ -574,17 +566,15 @@ SDK使用问题：
 
 1. 最新的移动服务条款在哪里查询？
    - 最新的授权条款请见：https://wap.cmpassport.com/resources/html/contract.html 
-2. 游戏类授权页面能否使用横屏显示？
-   - 从Android5.6.5版本和iOS5.3.9版本开始，一键登录授权页支持横屏显示。
-3. 授权页面可以关闭跳转到短信验证页面吗?是否可以选择使用应用原有的短验而不使用SDK自带的？
+2. 授权页面可以关闭跳转到短信验证页面吗?是否可以选择使用应用原有的短验而不使用SDK自带的？
    - 可以，详见接入文档【使用短信验证码】章节。应用如果没有短验，可以自行去掉。
-4. 一键登录sdk的短信验证页能不能单独调用？
+3. 一键登录sdk的短信验证页能不能单独调用？
    - 不能，短信验证码仅作为网关取号失败后的补充
-5. 用户点击授权后，授权页会自动关闭吗？
+4. 用户点击授权后，授权页会自动关闭吗？
    - 不能，需要开发者调用一下dissmiss，详情见【finish授权页】章节
-6. 同一个token可以多次获取手机号码吗？
+5. 同一个token可以多次获取手机号码吗？
    - token是单次有效的，一个token最多只能获取一次手机号。
-7. 如何判断调用方法是否成功？
+6. 如何判断调用方法是否成功？
    - 方法调用后SDK会给出返回码，103000为成功，其余为调用失败。建议应用捕捉这些返回码，可用于日常数据分析。
 
 
