@@ -31,7 +31,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 1. xcode版本需使用9.0以上，否则会报错
 2. 导入认证SDK的framework，直接将移动认证`TYRZSDK.framework`拖到项目中
-3. 在Xcode中找到`TARGETS-->Build Setting-->Linking-->Other Linker Flags`在这选项中需要添加`-ObjC`
+3. 在Xcode中找到`TARGETS-->Build Setting-->Linking-->Other Linker Flags`在这选项中需要添加`-ObjC`</br>
 注意:如果以上操作仍然出现unrecognized selector sent to instance找不到方法的报错,则添加更改为_all_load
 4. 资源文件:在Xcode中务必导入TYRZResource.bundle到项目中，否则授权界面显示异常（不显示默认图片） `TARGETS-->Build Phases-->Copy Bundle Resources-> 点击 "+" --> Add Other --> TYRZSDK.frameWork --> TYRZResource.bundle -->Open `
 
