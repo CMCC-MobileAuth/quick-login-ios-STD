@@ -245,8 +245,7 @@ YES：使用SDK提供的短验服务
 
 示例：
 
-```objective-c
-model.authViewBlock = ^(UIView *customView) {
+```model.authViewBlock = ^(UIView *customView, CGRect logoFrame, CGRect numberFrame, CGRect sloganFrame, CGRect loginBtnFrame, CGRect checkBoxFrame, CGRect privacyFrame) {
 UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooopen_sy_122409821526"]];
         ima.frame = customView.bounds;
         [customView addSubview:ima];
@@ -336,6 +335,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | sloganOffsetY | CGFloat            | 设置slogan相对于标题栏下边缘y偏移  |
 
 **弹窗授权页**
+
 | model属性            | 值类型                 | 属性说明                                                     |
 | :------------------- | :--------------------- | :----------------------------------------------------------- |
 | authWindow           | BOOL                   | 窗口模式开关                                                 |
