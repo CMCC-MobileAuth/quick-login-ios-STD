@@ -241,7 +241,7 @@ YES：使用SDK提供的短验服务
 
 | model属性     | 值类型     | 属性说明                 |
 | ------------- | ---------- | ------------------------ |
-| authViewBlock | customView | 设置授权页应用自定义控件 |
+| authViewBlock | UIView *customView, CGRect logoFrame, CGRect numberFrame, CGRect sloganFrame, CGRect loginBtnFrame, CGRect checkBoxFrame, CGRect privacyFrame | 设置授权页应用自定义控件 |
 
 示例：
 
