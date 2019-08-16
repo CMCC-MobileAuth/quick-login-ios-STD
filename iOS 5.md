@@ -369,6 +369,163 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 [self dismissViewControllerAnimated:YES completion:nil];
 …………
 ```
+### 2.6.4. 弹窗设置（中间弹窗）
+
+**代码示例（有关model设置,注意控件大小可根据需求去设置,更加详细的上下文可移步到demo查看）**
+```objective-c
+#pragma mark ----------------------弹窗竖屏:(温馨提示:由于受屏幕影响，小屏幕（5S,5E,5）需要改动字体和另自适应和布局)--------------------
+    if (self.authWindow && isPortrait) {
+        //⑴居中弹窗 特殊方式 -----务必在设置控件位置时，自行查看各个机型是否正常
+        
+        //要匹配更多屏幕,此处为控件大小控制设置（建议只更改Logo大小）
+        model.authWindow = YES;
+        model.cornerRadius = 15;
+        //46、居中弹窗开关
+        //UIModalTransitionStyleCoverVertical, 下推 0
+        //UIModalTransitionStyleFlipHorizontal,翻转 1
+        //UIModalTransitionStyleCrossDissolve, 淡出 2
+        //47、弹窗退出动画
+        model.modalTransitionStyle = 0;
+        //logo
+        model.logoOffsetY = @50;
+        //logo大小(可只设置宽SDK跟进图片比例算出等比高)
+        model.logoWidth = 65;
+        
+        //48、弧度设置
+        //49、自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8 其它比例自行配置
+        model.scaleW = 0.8;
+        //50、自定义窗口高-缩放系数(屏幕高乘以系数) 默认是0.5 其它比例自行配置
+        model.scaleH = 0.5;
+        model.logBtnOriginX = @20;
+//        model.checkboxWH = @12;
+        model.privacyOffsetY = @10;
+        model.appPrivacyOriginX = @20;
+        model.appPrivacyAlignment = 1;
+        //在5、5s、5e下,需要改字体才能适配
+        BOOL isSmallScreen = UIScreen.mainScreen.bounds.size.height < 667.0f;
+        if (isSmallScreen) {
+            model.logoWidth = 50;
+            model.logoOffsetY = @30;
+            model.numberOffsetY = @90;
+            model.sloganOffsetY = @115;
+            model.scaleW = 0.7;
+            model.privacyOffsetY = @5;
+            
+        }
+        //51、返回按钮frame
+        model.navReturnImgFrame = CGRectMake(self.view.frame.size.width *model.scaleW - 10 - 20, 10, 20, 20);
+        
+        model.authViewBlock = ^(UIView *customView, CGRect logoFrame, CGRect numberFrame, CGRect sloganFrame, CGRect loginBtnFrame, CGRect checkBoxFrame, CGRect privacyFrame) {
+            [self setThiirdViewWithCustom:customView isSmall:isSmallScreen frame:loginBtnFrame];
+        };
+        
+        
+    }
+    
+ #pragma mark ----------------------弹窗横屏:(温馨提示:由于受屏幕影响，小屏幕（5S,5E,5）需要改动字体和另自适应和布局)--------------------
+    else if(self.authWindow &&!isPortrait){
+        CGFloat overallScaleH = UIScreen.mainScreen.bounds.size.height/ 375.f;
+        CGFloat overallScaleW = UIScreen.mainScreen.bounds.size.width/ 667.f;
+        model.authWindow = YES;
+        model.cornerRadius = 10;
+        //46、居中弹窗开关
+        //UIModalTransitionStyleCoverVertical, 下推 0
+        //UIModalTransitionStyleFlipHorizontal,翻转 1
+        //UIModalTransitionStyleCrossDissolve, 淡出 2
+        //47、弹窗退出动画
+        model.modalTransitionStyle = 1;
+        BOOL isSmallScreen = UIScreen.mainScreen.bounds.size.height < 375.f;
+        model.scaleH = 0.7;
+        model.scaleW = 0.7;
+        model.logoHidden = YES;
+        
+        model.numberOffsetX = @(-155 * overallScaleW);
+        model.logBtnOffsetY = @(110 * overallScaleH);
+        model.numberOffsetY = @((110 + (40 - 23.86)/2) * overallScaleH);
+        model.privacyOffsetY = @(55 * overallScaleH);
+        model.sloganOffsetY = @(85 * overallScaleH);
+        model.navReturnImgFrame = CGRectMake(self.view.frame.size.width *model.scaleW - 25 - 20, 35/2, 20, 20);
+        model.authViewBlock = ^(UIView *customView, CGRect logoFrame, CGRect numberFrame, CGRect sloganFrame, CGRect loginBtnFrame,CGRect checkBoxFrame, CGRect privacyFrame) {
+            
+            CGFloat subViewH = isSmallScreen ? 45 : 55;
+            UIImage *imageS = [UIImage imageNamed:@"中国移动.png"];
+            CGFloat imageH = isSmallScreen ? 30 : 40;
+            CGFloat widthI = imageS.size.width / imageS.size.height * imageH;
+            UIImageView *imageV = [[UIImageView alloc]initWithImage:imageS];
+            imageV.frame = CGRectMake(10, 10, widthI, imageH);
+            [customView addSubview:imageV];
+            
+            UIView *line = [[UIView alloc]init];
+            line.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
+            line.frame = CGRectMake(0, subViewH, customView.frame.size.width,1);
+            [customView addSubview:line];
+            
+            UIView *thirdView = [[UIView alloc]init];
+            thirdView.frame = CGRectMake(0, customView.frame.size.height - subViewH, customView.frame.size.width, subViewH);
+            thirdView.backgroundColor = [UIColor colorWithRed:233/255.f green:234/255.f blue:254/255.f alpha:1];
+            
+            [customView addSubview:thirdView];
+            
+            //自定义------控件（仅供参考）
+            //        CGFloat screenh = customView.frame.size.height;
+            UIButton *btnWeChat = [self setBtnWith:@"微信1"];
+            UIButton *btnQQ = [self setBtnWith:@"qq1"];
+            UIButton *btnWebo = [self setBtnWith:@"微博1"];
+            [btnWeChat setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+            [btnQQ setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+            [btnWebo setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+            
+            UILabel *label = [[UILabel alloc]init];
+            label.text = @"其它登录方式:";
+            label.textColor = [UIColor grayColor];
+            label.font = [UIFont systemFontOfSize:isSmallScreen ? 12 :15];
+            label.textAlignment = NSTextAlignmentLeft;
+            CGSize sizeLabel = [label.text sizeWithAttributes:@{NSForegroundColorAttributeName:label.textColor,NSFontAttributeName:label.font}];
+            CGRect labelFrame =  label.frame;
+            labelFrame.size = sizeLabel;
+            label.frame = labelFrame;
+            label.frame = CGRectMake(0, 0, thirdView.frame.size.width, label.frame.size.height);
+            [thirdView addSubview:label];
+            
+            CGFloat btnW = subViewH - label.frame.size.height;
+            CGFloat margin = 40;
+            
+            btnWeChat.frame = CGRectMake((thirdView.frame.size.width - 3 *btnW - 2 *margin)/2, CGRectGetMaxY(label.frame),btnW , btnW);
+            btnQQ.frame = CGRectMake(CGRectGetMaxX(btnWeChat.frame) + margin, CGRectGetMaxY(label.frame), btnW, btnW);
+            btnWebo.frame = CGRectMake(CGRectGetMaxX(btnQQ.frame) + margin, CGRectGetMaxY(label.frame), btnW, btnW);
+            [thirdView addSubview:btnWeChat];
+            [thirdView addSubview:btnQQ];
+            [thirdView addSubview:btnWebo];
+            
+        };
+        
+    }
+    
+```
+
+### 2.6.5. 弹窗设置（边缘弹窗,二选一，authWindow必须为NO,UIPresentationController为主要改VC大小）
+
+**代码示例（有关model设置,注意控件大小可根据需求去设置,更加详细的上下文可移步到demo查看）**
+```objective-c
+#pragma mark ----------------------边缘弹窗:(温馨提示:authWindow必须为NO,由于受屏幕影响，小屏幕（5S,5E,5）需要改动字体和另自适应和布局)--------------------
+    else if(!self.authWindow && isPortrait && self.edgeWindow){
+        CGFloat overallScaleH = UIScreen.mainScreen.bounds.size.height/ 667.f;
+        CGFloat overallScaleW = UIScreen.mainScreen.bounds.size.width/ 375.f;
+        //推出动画由model中的presentType来决定
+        model.presentType = 0;
+        //53、边缘弹窗方式中的VC尺寸
+        model.controllerSize = CGSizeMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height/2);
+        model.logoWidth = 45 * overallScaleW;
+        model.logoOffsetY = @(15 *overallScaleH);
+        model.numberOffsetY = @(70 * overallScaleH);
+        model.privacyOffsetY = @((UIScreen.mainScreen.bounds.size.height)/2 - 15);
+        
+    }
+
+根据原理，此方式也有其它方向设置,可修改VC推出动画实现,并且修改布局
+
+```
+
 
 ## 2.7. 获取手机号码（服务端）
 
