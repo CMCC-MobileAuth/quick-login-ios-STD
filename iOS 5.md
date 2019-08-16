@@ -2,7 +2,7 @@
 
 sdk技术问题沟通QQ群：609994083</br>
 sdk支持版本：iOS8.0及以上</br>
-本文档为一键登录SDK5.3.10版本的开发文档</br>
+本文档为一键登录SDK5.3.11版本的开发文档</br>
 
 
 **注意事项：**
@@ -334,6 +334,18 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | ------------- | ------------------ | ---------------------------------- |
 | sloganText    | NSAttributedString | slogan文字富文本（颜色、字体大小） |
 | sloganOffsetY | CGFloat            | 设置slogan相对于标题栏下边缘y偏移  |
+
+**弹窗授权页**
+| model属性            | 值类型                 | 属性说明                                                     |
+| :------------------- | :--------------------- | :----------------------------------------------------------- |
+| authWindow           | BOOL                   | 窗口模式开关                                                 |
+| controllerSize       | CGSize                 | 此属性支持半弹框方式与authWindow不同（此方式为UIPresentationController）设置后自动隐藏切换按钮 |
+| cornerRadius         | CGFloat                | 自定义窗口弧度半径 默认是10                                  |
+| modalTransitionStyle | UIModalTransitionStyle | 窗口模式推出动画（系统自带）                                 |
+| navReturnImgFrame    | CGRect                 | 返回按钮frame设置 只有隐藏导航栏时有效 默认frame为 (20,居中,20 * 系数scaleW,20 * scaleW) |
+| scaleH               | CGFloat                | 自定义窗口高-缩放系数(屏幕高乘以系数) 默认是0.5              |
+| scaleW               | CGFloat                | 自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8              |
+| webNavReturnImg      | UIImage                | web协议界面导航返回图标(尺寸根据图片大小)                    |
 
 **短信验证码页面**
 
