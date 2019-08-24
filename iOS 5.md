@@ -79,7 +79,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.2. 流程说明
 
-![](image/login.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/login.png?raw=true)
 
 ## 2.3. 取号请求
 
@@ -205,9 +205,9 @@ YES：使用SDK提供的短验服务
 
 ### 2.6.1. 页面规范细则
 
-![](image/authUI.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/authUI.png?raw=true)
 
-![](image/SMSPage.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/SMSPage.png?raw=true)
 
 
 
@@ -391,7 +391,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 ## 3.2. 使用流程说明
 
-![](image/mobile_auth.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/mobile_auth.png?raw=true)
 
 ## 3.3. 取号请求
 
