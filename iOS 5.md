@@ -107,7 +107,7 @@ sdk支持版本：iOS8.0及以上</br>
 | ---------- | -------- | ------------------ |
 | resultCode | NSString | 返回相应的结果码   |
 | desc       | NSString | 调用描述           |
-| traceid    | NSString | 请求业务流程唯一ID |
+| traceid    | NSString | 请求业务流程唯一ID，用于定位sdk问题 |
 
 **请求示例代码**
 
