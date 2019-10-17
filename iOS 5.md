@@ -2,7 +2,7 @@
 
 sdk技术问题沟通QQ群：609994083</br>
 sdk支持版本：iOS8.0及以上</br>
-本文档为一键登录SDK5.3.11版本的开发文档</br>
+本文档为一键登录SDK5.3.12版本的开发文档</br>
 
 **注意事项：**
 
@@ -14,7 +14,7 @@ sdk支持版本：iOS8.0及以上</br>
 6. 关于双卡的适配问题：
    1. 当两张卡的运营商不一致时，SDK会获取设备上网卡的运营商并进行取号，但上网卡不一定会获取成功（飞行模式状态时），若获取失败，SDK将默认取号卡为移动运营商取号，如果匹配，则取号成功，否则SDK返回103111；
    2. 当SDK存在缓存并且两张卡的运营商不相同时，SDK会重新获取上网卡运营商与上一次取号的运营商进行对比，若两次运营商不一致，则以最新设置的上网卡的运营商为准，重新取号，上次获取的缓存将自动失效；双卡运营商相同的情况则不需要重新取号。
-   3. iOS 13上，双卡的适配在5.3.11之前的版本（含5.3.11）会失效，需要等iOS 13正式发布后再做相应的适配，，如果在调用SDK方法时，不在主线程上调用，会有很低的概率导致应用crash
+   3. iOS 13上已完成双卡适配，SDK通过苹果提供的方法获取运营商，若获取失败，SDK将默认取号卡为移动运营商取号，如果匹配，则取号成功，否则SDK返回103111.
 
 ## 1.1. 接入流程
 
@@ -103,10 +103,11 @@ sdk支持版本：iOS8.0及以上</br>
 
 **响应参数：**
 
-| 参数       | 类型     | 说明             |
-| ---------- | -------- | ---------------- |
-| resultCode | NSString | 返回相应的结果码 |
-| desc       | NSString | 调用描述         |
+| 参数       | 类型     | 说明               |
+| ---------- | -------- | ------------------ |
+| resultCode | NSString | 返回相应的结果码   |
+| desc       | NSString | 调用描述           |
+| traceid    | NSString | 请求业务流程唯一ID |
 
 **请求示例代码**
 
@@ -328,6 +329,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | appPrivacyAlignment | NSTextAlignment               | 设置隐私条款文字内容的方向:默认是居左                        |
 | privacyColor      | UIColor                       | 设置隐私条款名称颜色（协议）                                 |
 | privacyState      | BOOL                          | 隐私条款check框默认状态<br/>默认:NO                          |
+| privacySymbol | BOOL | 设置条款是否有书名号 |
 | privacyOffsetY    | NSNumber                      | 设置隐私条款相对于授权页面底部下边缘y偏移                    |
 | appPrivacyOriginX | NSNumber                      | 设置隐私协议距离屏幕的左右边距                               |
 
@@ -350,6 +352,12 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | scaleH               | CGFloat                | 自定义窗口高-缩放系数(屏幕高乘以系数) 默认是0.5              |
 | scaleW               | CGFloat                | 自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8              |
 | webNavReturnImg      | UIImage                | web协议界面导航返回图标(尺寸根据图片大小)                    |
+
+**横竖屏设置**
+
+| model属性                                    | 值类型                 | 属性说明                                                     |
+| -------------------------------------------- | ---------------------- | ------------------------------------------------------------ |
+| preferredInterfaceOrientationForPresentation | UIInterfaceOrientation | 开发者可以仅设置竖屏授权页； 开发者可以仅设置横屏授权页； 开发者可以在授权页的前一个页面来选择并控制调起横屏还是竖屏授权页，不设置的话，默认竖屏授权页。 |
 
 **短信验证码页面**
 
