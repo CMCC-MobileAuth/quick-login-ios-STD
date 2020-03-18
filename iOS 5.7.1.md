@@ -83,7 +83,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.2. 流程说明
 
-![](C:\Users\lenovo\Desktop\【品质管理文档】\iOS\ios 5.7\image\login.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/login.png?raw=true)
 
 ## 2.3. 取号请求
 
@@ -363,7 +363,7 @@ model属性  值类型  属性说明  webNavColor  UIColor  设置标题栏颜�
 
 ## 3.2. 使用流程说明
 
-![](C:\Users\lenovo\Desktop\【品质管理文档】\iOS\ios 5.7\image\mobile_auth.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/mobile_auth.png?raw=true)
 
 ## 3.3. 取号请求
 
