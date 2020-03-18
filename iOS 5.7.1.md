@@ -195,8 +195,7 @@ sdk支持版本：iOS8.0及以上</br>
 ### 2.5.1. 页面规范细则
 
 
-
-![](C:\Users\lenovo\Desktop\【品质管理文档】\iOS\ios 5.7\image\authUI.png)
+![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/authUI.png?raw=true)
 
 **注意：**
 
