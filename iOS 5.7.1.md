@@ -39,6 +39,8 @@ sdk支持版本：iOS8.0及以上</br>
 3. 在Xcode中找到`TARGETS-->Build Setting-->Linking-->Other Linker Flags`在这选项中需要添加`-ObjC`</br>
 注意:如果以上操作仍然出现unrecognized selector sent to instance找不到方法的报错,则添加更改为_all_load
 4. 资源文件:在Xcode中务必导入TYRZResource.bundle到项目中，否则授权界面显示异常（不显示默认图片） `TARGETS-->Build Phases-->Copy Bundle Resources-> 点击 "+" --> Add Other --> TYRZSDK.frameWork --> TYRZResource.bundle -->Open `
+5. 导入sdk语句：`#import <TYRZSDK/TYRZSDK.h>`，导入后才能调用SDK的方法
+6. 在info.plist 文件中添加一个子项目App Transport Security Settings，然后在其中添加一个key：Allow Arbitrary Loads，其值为YES。修改后其他运营商才能使用一键登录。
 
 **第三步：开始使用移动认证SDK**
 
