@@ -118,7 +118,7 @@ sdk支持版本：iOS8.0及以上</br>
      
         NSString *resultCode = sender[@"resultCode"];
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:sender];
-        if ([resultCode isEqualToString:CLIENTSUCCESSCODECLIENT]) {
+        if ([resultCode isEqualToString:@"103000") {
             NSLog(@"预取号成功");
         } else {
             NSLog(@"预取号失败");
