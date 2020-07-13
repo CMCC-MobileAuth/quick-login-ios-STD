@@ -86,7 +86,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.2. 流程说明
 
-![avatar](image/login.png)
+![login](image/login.png)
 
 ## 2.3. 取号请求
 
