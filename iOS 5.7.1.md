@@ -86,7 +86,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.2. 流程说明
 
-![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/login.png?raw=true)
+![avatar](image/login.png)
 
 ## 2.3. 取号请求
 
