@@ -198,7 +198,7 @@ sdk支持版本：iOS8.0及以上</br>
 ### 2.5.1. 页面规范细则
 
 
-![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/authUI.png?raw=true)
+![UI](image/authUI.png)
 
 **注意：**
 
@@ -364,7 +364,8 @@ model属性  值类型  属性说明  webNavColor  UIColor  设置标题栏颜�
 
 ## 3.2. 使用流程说明
 
-![](https://github.com/CMCC-MobileAuth/quick-login-ios-STD/blob/master/image/mobile_auth.png?raw=true)
+
+![mobile_auth](image/mobile_auth.png)
 
 ## 3.3. 取号请求
 
