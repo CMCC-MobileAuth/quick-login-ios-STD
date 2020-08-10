@@ -73,6 +73,7 @@ sdk支持版本：iOS8.0及以上</br>
 | appKey | NSString | 应用密钥    |
 
 <div STYLE="page-break-after: always;"></div>
+
 # 2. 一键登录功能
 
 ## 2.1. 准备工作
