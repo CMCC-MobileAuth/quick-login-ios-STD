@@ -263,7 +263,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 | model属性       | 值类型             | 属性说明                             |
 | --------------- | ------------------ | ------------------------------------ |
-| numberText      | NSAttributedString | 手机号码富文本设置（字体大小、颜色） |
+| numberText      | NSDictionary<NSAttributedStringKey,id> | 手机号码富文本设置（字体大小、颜色） |
 | numberOffsetY   | CGFloat            | 号码栏Y相对于界面上边缘y偏移         |
 | numberOffsetY_B | CGFloat            | 号码栏Y相对于界面下边缘y偏移         |
 | numberOffsetX   | NSNumber           | 号码栏X相对于默认值的左右偏移        |
@@ -331,7 +331,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 **页面多语言设置**
 | model属性            | 值类型                 | 属性说明                                                     |
 | :------------------- | :--------------------- | :----------------------------------------------------------- |
-| appLanguageType        |UALanguagType                |0.中文简体；1.中文繁体；2.英文                          |
+| appLanguageType        |UALanguagType                |UALanguageSimplifiedChinese 简体中文；UALanguageTraditionalChinese  繁体中文；UALanguageEnglish英文                  |
 
 ### 2.5.3. 授权页面的关闭
 
