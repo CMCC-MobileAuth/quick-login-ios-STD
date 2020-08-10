@@ -2,7 +2,7 @@
 
 sdk技术问题沟通QQ群：609994083</br>
 sdk支持版本：iOS8.0及以上</br>
-本文档为一键登录SDK5.8.0版本的开发文档</br>
+本文档为一键登录SDK5.8.2版本的开发文档</br>
 
 **注意事项：**
 
@@ -289,6 +289,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | privacySymbol | BOOL | 设置协议是否有书名号 |
 | uncheckedImg      | UIImage                       | 设置复选框未选中时图片                                       |
 | checkedImg        | UIImage                       | 设置复选框选中时图片                                         |
+| checkTipText     | NSString                      | 设置未勾选提示的自定义提示文案 (不设置则为空白)                               |
 | checkboxWH        | CGFloat                       | 复选框大小（只能正方形）必须大于12*/                         |
 | appPrivacyAlignment | NSTextAlignment               | 设置隐私条款文字内容的方向:默认是居左                        |
 | privacyColor      | UIColor                       | 设置隐私条款名称颜色（协议）                                 |
@@ -296,6 +297,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | privacyOffsetY    | NSNumber                      | 设置隐私条款相对于界面上边缘y偏移   |
 | privacyOffsetY_B | NSNumber | 设置隐私条款相对于界面下边缘y偏移 |
 | appPrivacyOriginLR | NSArray (NSNumber *)                      | 设置隐私协议距离屏幕的左右边距                               |
+
 
 **服务条款页面标题栏**
 
@@ -311,7 +313,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | -------------------------------------------- | ---------------------- | ------------------------------------------------------------ |
 | preferredInterfaceOrientationForPresentation | UIInterfaceOrientation | 开发者可以仅设置竖屏授权页；开发者可以仅设置横屏授权页；开发者可以在授权页的前一个页面来选择并控制调起横屏还是竖屏授权页，不设置的话，默认竖屏授权页。 |
 
-model属性  值类型  属性说明  webNavColor  UIColor  设置标题栏颜色
+注意：该属性可以强制横屏弹窗，但是sdk内部页面不适配跟随系统重力感应自动旋转页面。
 
 **弹窗授权页**
 
@@ -325,7 +327,10 @@ model属性  值类型  属性说明  webNavColor  UIColor  设置标题栏颜�
 | scaleW               | CGFloat                | 自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8              |
 | webNavReturnImg      | UIImage                | web协议界面导航返回图标(尺寸根据图片大小)                    |
 
-
+**页面多语言设置**
+| model属性            | 值类型                 | 属性说明                                                     |
+| :------------------- | :--------------------- | :----------------------------------------------------------- |
+| appLanguageType        |UALanguagType                |0.中文简体；1.中文繁体；2.英文                          |
 
 ### 2.5.3. 授权页面的关闭
 
