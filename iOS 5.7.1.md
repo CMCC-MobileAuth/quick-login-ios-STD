@@ -312,7 +312,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 | model属性                                    | 值类型                 | 属性说明                                                     |
 | -------------------------------------------- | ---------------------- | ------------------------------------------------------------ |
-| preferredInterfaceOrientationForPresentation | UIInterfaceOrientation | 开发者可以仅设置竖屏授权页；开发者可以仅设置横屏授权页；开发者可以在授权页的前一个页面来选择并控制调起横屏还是竖屏授权页，不设置的话，默认竖屏授权页。 |
+| faceOrientation | UIInterfaceOrientation | 开发者可以仅设置竖屏授权页；开发者可以仅设置横屏授权页；开发者可以在授权页的前一个页面来选择并控制调起横屏还是竖屏授权页，不设置的话，默认竖屏授权页。 |
 
 注意：该属性可以强制横屏弹窗，但是sdk内部页面不适配跟随系统重力感应自动旋转页面。
 
