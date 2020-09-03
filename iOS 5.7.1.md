@@ -168,7 +168,6 @@ sdk支持版本：iOS8.0及以上</br>
 //    model.navReturnImg = [UIImage imageNamed:@"tooopen_sy_122409821526"];
 //    model.logBtnImgs = @[[UIImage imageNamed:@"12341553737084_.pic_hd"],[UIImage imageNamed:@"12341553737084_.pic_hd"],[UIImage imageNamed:@"12341553737084_.pic_hd"]];
 //    model.logBtnImgs = []
-//    model.navCustom = YES;
 //    model.authViewBlock = ^(UIView *customView) {
 //        UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooopen_sy_122409821526"]];
 //        ima.frame = customView.bounds;
