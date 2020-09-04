@@ -285,13 +285,12 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | model属性         | 值类型                        | 属性说明                                                     |
 | ----------------- | ----------------------------- | ------------------------------------------------------------ |
 | appPrivacy        | NSArray（NSAttributedString） | APP自定义隐私条款:数组（务必按顺序）要设置NSLinkAttributeName属性可以跳转协议 比如:@[NSAttributedString对象,...] |
-| appPrivacyDemo    | NSAttributedString            | 设置隐私的内容模板：，1、全句可自定义但必须保留"&&默认&&"字段表明SDK默认协议,否则设置不生效 2、协议1和协议2的名称要与数组 NSAttributedString1 和 NSAttributedString2 ... 里的名称 一样 3、必设置项（参考SDK的demo） appPrivacyDemo设置内容：登录并同意&&默认&&和&&百度协议&&、&&京东协议2&&登录并支持一键登录 展示：   登录并同意中国移动条款协议和百度协议1、京东协议2登录并支持一键登录 |
+| appPrivacyDemo    | NSAttributedString            | 设置隐私的内容模板，也可以设置文本的居中或居左。1、全句可自定义但必须保留"&&默认&&"字段表明SDK默认协议,否则设置不生效 2、协议1和协议2的名称要与数组 NSAttributedString1 和 NSAttributedString2 ... 里的名称 一样 3、必设置项（参考SDK的demo） appPrivacyDemo设置内容：登录并同意&&默认&&和&&百度协议&&、&&京东协议2&&登录并支持一键登录 展示：   登录并同意中国移动条款协议和百度协议1、京东协议2登录并支持一键登录 |
 | privacySymbol | BOOL | 设置协议是否有书名号 |
 | uncheckedImg      | UIImage                       | 设置复选框未选中时图片                                       |
 | checkedImg        | UIImage                       | 设置复选框选中时图片                                         |
 | checkTipText     | NSString                      | 设置未勾选提示的自定义提示文案 (不设置则为空白)                               |
 | checkboxWH        | CGFloat                       | 复选框大小（只能正方形）必须大于12*/                         |
-| appPrivacyAlignment | NSTextAlignment               | 设置隐私条款文字内容的方向:默认是居左                        |
 | privacyColor      | UIColor                       | 设置隐私条款名称颜色（协议）                                 |
 | privacyState      | BOOL                          | 隐私条款check框默认状态<br/>默认:NO                          |
 | privacyOffsetY    | NSNumber                      | 设置隐私条款相对于界面上边缘y偏移   |
