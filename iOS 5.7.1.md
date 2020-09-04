@@ -245,6 +245,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 | model属性     | 值类型     | 属性说明                 |
 | ------------- | ---------- | ------------------------ |
 | presentType | UAPresentationDirection | 授权页面推出动画效果 |
+| modalPresentationStyle |UIModalPresentationStyle|模态展示样式设置属性。为了解决部分用户全屏调出授权页的控制器（即demo中的OpenViewController）的生命周期调用问题，开放该属性由用户自行设置 |
 
 **授权界面背景图片**
 
