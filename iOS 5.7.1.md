@@ -21,7 +21,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 **1.申请appid和appkey**
 
-根据《开发者接入流程文档》，前往中国移动开发者社区（dev.10086.cn)，按照文档要求创建开发者账号并申请appid和appkey，并填写应用的包名（bundle ID)。
+根据《开发者接入流程文档》，前往中国移动能力开放平台（dev.10086.cn)，按照文档要求创建开发者账号并申请appid和appkey，并填写应用的包名（bundle ID)。
 
 **2.申请能力**
 
@@ -78,7 +78,7 @@ sdk支持版本：iOS8.0及以上</br>
 
 ## 2.1. 准备工作
 
-在中国移动开发者社区进行以下操作：
+在中国移动能力开放平台进行以下操作：
 
 1. 获得appid和appkey、APPSecret（服务端）；
 2. 勾选一键登录能力；
@@ -359,7 +359,7 @@ UIImageView *ima = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tooop
 
 ## 3.1. 准备工作
 
-在中国移动开发者社区进行以下操作：
+在中国移动能力开放平台进行以下操作：
 
 1. 获得appid和appkey、APPSecret（服务端）；
 2. 勾选本机号码校验能力；
